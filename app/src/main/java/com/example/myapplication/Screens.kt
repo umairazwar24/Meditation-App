@@ -34,7 +34,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
     
     // Handle authentication result
     LaunchedEffect(authResult) {
-        when (authResult) {
+        when (val result = authResult) {
             is AuthResult.Success -> {
                 navController.navigate("dashboard") {
                     popUpTo("login") { inclusive = true }
@@ -42,7 +42,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
             }
             is AuthResult.Error -> {
                 showError = true
-                errorMessage = authResult.message
+                errorMessage = result.message
             }
             is AuthResult.Loading -> {
                 // Loading state handled in UI
