@@ -64,27 +64,36 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
         Text("Select your class location:", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
         
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+        var expanded by remember { mutableStateOf(false) }
+        
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded },
+            modifier = Modifier.fillMaxWidth()
         ) {
-            ClassLocation.values().forEach { location ->
-                Row(
-                    modifier = Modifier
-                        .selectable(
-                            selected = selectedLocation == location,
-                            onClick = { selectedLocation = location }
-                        )
-                        .padding(8.dp)
-                ) {
-                    RadioButton(
-                        selected = selectedLocation == location,
-                        onClick = { selectedLocation = location }
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        text = location.name,
-                        modifier = Modifier.padding(start = 4.dp)
+            OutlinedTextField(
+                value = selectedLocation.name,
+                onValueChange = { },
+                readOnly = true,
+                label = { Text("Class Location") },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                ClassLocation.values().forEach { location ->
+                    DropdownMenuItem(
+                        text = { Text(location.name) },
+                        onClick = {
+                            selectedLocation = location
+                            expanded = false
+                        }
                     )
                 }
             }
