@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
 fun AppNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController) }
+        composable("dashboard") { DashboardScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("settings") { SettingsScreen(navController) }
     }
